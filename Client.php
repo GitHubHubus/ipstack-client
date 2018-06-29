@@ -10,24 +10,34 @@ use OK\Ipstack\Entity\Location;
  */
 class Client
 {
-    const URL = 'http://api.ipstack.com/';
+    const URL = 'api.ipstack.com/';
+    
+    /**
+     * @var string
+     */
+    private $protocol;
     
     /**
      * @var string 
      */
     private $key;
-    
+
     /**
      * @param string $key
      * @throws InvalidApiException
      */
-    public function __construct($key = null)
+    public function __construct($key = null, $protocol = 'http')
     {
         if ($key === null) {
             throw new InvalidApiException('You have not API Access Key');
         }
         
+        if (!in_array($protocol, ['http', 'https'])) {
+            throw new \Exception('Incorrect protocol');
+        }
+        
         $this->key = $key;
+        $this->protocol = $protocol;
     }
     
     /**
@@ -47,6 +57,31 @@ class Client
         }
 
         return $isArray ? $result : $this->createLocation($result);
+    }
+    
+    /**
+     * Get data by array ip's from api ipstack
+     *
+     * @param array $ips
+     * @param bool $isArray
+     *
+     * @return mixed
+     */
+    public function getBulk(array $ips, $isArray = false)
+    {
+        $result = $this->request($this->getUrl(implode(',', $ips)));
+                    
+        if ($result['error']) {
+            throw new InvalidApiException("[{$result['error']['code']}][{$result['error']['type']}}] {$result['error']['info']}}");
+        }
+
+        if (!$isArray) {
+            foreach ($result as $key => $locationData) {
+                $result[$key] = $this->createLocation($locationData);
+            }
+        }
+
+        return $result;
     }
     
     /**
@@ -71,7 +106,7 @@ class Client
      */
     public function getUrl(string $ip): string
     {
-        return self::URL . $ip . '?access_key=' . $this->key;
+        return sprintf('%s://%s%s?access_key=', [$this->protocol, self::URL, $ip, $this->key]);
     }
     
     /**
@@ -92,7 +127,9 @@ class Client
                 ->setLongitude($data['longitude'])
                 ->setRegionCode($data['region_code'])
                 ->setRegionName($data['region_name'])
-                ->setZip($data['zip']);
+                ->setZip($data['zip'])
+                ->setIp($data['ip'])
+                ->setValid($data['type'] !== null);
         
         return $location;
     }

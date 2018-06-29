@@ -58,6 +58,54 @@ class Location
     protected $longitude;
     
     /**
+     * @var string
+     */
+    protected $ip;
+    
+    /**
+     * @var valid
+     */
+    protected $valid;
+    
+    /**
+     * @return bool
+     */
+    public function isValid(): bool
+    {
+        return $this->valid;
+    }
+    
+    /**
+     * @param bool $valid
+     * @return Location
+     */
+    public function setValid(bool $valid): Location
+    {
+        $this->valid = $valid;
+
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getIp(): string
+    {
+        return $this->ip;
+    }
+    
+    /**
+     * @param string $ip
+     * @return Location
+     */
+    public function setIp(string $ip): Location
+    {
+        $this->ip = $ip;
+
+        return $this;
+    }
+    
+    /**
      * @return string
      */
     public function getCity(): string
