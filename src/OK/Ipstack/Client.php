@@ -23,10 +23,18 @@ class Client
     private $key;
 
     /**
-     * @param string $key
+     * @var array
+     */
+    private $fields;
+    
+    /**
+     * @param string $key <p>API Access Key</p>
+     * @param string $protocol <p>http or https</p>
+     * @param array $fields <p>The full list of fields look at https://ipstack.com/documentation</p>
+     *
      * @throws InvalidApiException
      */
-    public function __construct($key = null, $protocol = 'http')
+    public function __construct($key = null, string $protocol = 'http', array $fields = ['main'])
     {
         if ($key === null) {
             throw new InvalidApiException('You have not API Access Key');
@@ -38,6 +46,46 @@ class Client
         
         $this->key = $key;
         $this->protocol = $protocol;
+        $this->fields = $fields;
+    }
+    
+    /**
+     * @param string $field
+     * @return void
+     */
+    public function addField(string $field): void
+    {
+        if (!in_array($field, $this->fields)) {
+            $this->fields[] = $field;
+        }
+    }
+    
+    /**
+     * @param string $field
+     * @return void
+     */
+    public function removeField(string $field): void
+    {
+        if (in_array($field, $this->fields)) {
+            unset($this->fields[$field]);
+        }
+    }
+    
+    /**
+     * @param array $fields
+     * @return void
+     */
+    public function setFields(array $fields): void
+    {
+        $this->fields = $fields;
+    }
+    
+    /**
+     * @return void
+     */
+    public function clearFields(): void
+    {
+        $this->fields = [];
     }
     
     /**
@@ -106,7 +154,14 @@ class Client
      */
     public function getUrl(string $ip): string
     {
-        return sprintf('%s://%s%s?access_key=', [$this->protocol, self::URL, $ip, $this->key]);
+        return sprintf(
+            '%s://%s%s?access_key=%s&fields=%s', 
+            $this->protocol, 
+            self::URL, 
+            $ip, 
+            $this->key,
+            implode(',', $this->fields)
+        );
     }
     
     /**
