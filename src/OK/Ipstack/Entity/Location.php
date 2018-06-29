@@ -87,18 +87,18 @@ class Location
     }
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getIp(): string
+    public function getIp(): ?string
     {
         return $this->ip;
     }
     
     /**
-     * @param string $ip
+     * @param string|null $ip
      * @return Location
      */
-    public function setIp(string $ip): Location
+    public function setIp(string $ip = null): Location
     {
         $this->ip = $ip;
 
@@ -106,18 +106,18 @@ class Location
     }
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCity(): string
+    public function getCity(): ?string
     {
         return $this->city;
     }
     
     /**
-     * @param string $city
+     * @param string|null $city
      * @return Location
      */
-    public function setCity(string $city): Location
+    public function setCity(string $city = null): Location
     {
         $this->city = $city;
 
@@ -125,18 +125,18 @@ class Location
     }
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getContinentCode(): string
+    public function getContinentCode(): ?string
     {
         return $this->continentCode;
     }
 
     /**
-     * @param string $continentCode
+     * @param string|null $continentCode
      * @return Location
      */
-    public function setContinentCode(string $continentCode): Location
+    public function setContinentCode(string $continentCode = null): Location
     {
         $this->continentCode = $continentCode;
         
@@ -144,18 +144,18 @@ class Location
     }
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getContinentName(): string
+    public function getContinentName(): ?string
     {
         return $this->continentName;
     }
 
     /**
-     * @param string $continentName
+     * @param string|null $continentName
      * @return Location
      */
-    public function setContinentName(string $continentName): Location
+    public function setContinentName(string $continentName = null): Location
     {
         $this->continentName = $continentName;
         
@@ -163,18 +163,18 @@ class Location
     }
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCountryCode()
+    public function getCountryCode(): ?string
     {
         return $this->countryCode;
     }
 
     /**
-     * @param string $countryCode
+     * @param string|null $countryCode
      * @return Location
      */
-    public function setCountryCode(string $countryCode): Location
+    public function setCountryCode(string $countryCode = null): Location
     {
         $this->countryCode = $countryCode;
         
@@ -182,18 +182,18 @@ class Location
     }
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCountryName()
+    public function getCountryName(): ?string
     {
         return $this->countryName;
     }
 
     /**
-     * @param string $countryName
+     * @param string|null $countryName
      * @return Location
      */
-    public function setCountryName(string $countryName): Location
+    public function setCountryName(string $countryName = null): Location
     {
         $this->countryName = $countryName;
         
@@ -201,18 +201,18 @@ class Location
     }
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getRegionCode()
+    public function getRegionCode(): ?string
     {
         return $this->regionCode;
     }
 
     /**
-     * @param string $regionCode
+     * @param string|null $regionCode
      * @return Location
      */
-    public function setRegionCode(string $regionCode): Location
+    public function setRegionCode(string $regionCode = null): Location
     {
         $this->regionCode = $regionCode;
         
@@ -220,18 +220,18 @@ class Location
     }
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getRegionName()
+    public function getRegionName(): ?string
     {
         return $this->regionName;
     }
 
     /**
-     * @param string $regionName
+     * @param string|null $regionName
      * @return Location
      */
-    public function setRegionName(string $regionName): Location
+    public function setRegionName(string $regionName = null): Location
     {
         $this->regionName = $regionName;
         
@@ -239,18 +239,18 @@ class Location
     }
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getZip()
+    public function getZip(): ?string
     {
         return $this->zip;
     }
 
     /**
-     * @param string $zip
+     * @param string|null $zip
      * @return Location
      */
-    public function setZip(string $zip): Location
+    public function setZip(string $zip = null): Location
     {
         $this->zip = $zip;
         
@@ -258,18 +258,18 @@ class Location
     }
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getLatitude()
+    public function getLatitude(): ?string
     {
         return $this->latitude;
     }
 
     /**
-     * @param float $latitude
+     * @param float|null $latitude
      * @return Location
      */
-    public function setLatitude(float $latitude): Location
+    public function setLatitude(float $latitude = null): Location
     {
         $this->latitude = $latitude;
         
@@ -277,18 +277,18 @@ class Location
     }
     
     /**
-     * @return string
+     * @return string|null
      */
-    public function getLongitude()
+    public function getLongitude(): ?string
     {
         return $this->longitude;
     }
 
     /**
-     * @param float $longitude
+     * @param float|null $longitude
      * @return Location
      */
-    public function setLongitude(float $longitude): Location
+    public function setLongitude(float $longitude = null): Location
     {
         $this->longitude = $longitude;
         

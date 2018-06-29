@@ -10,7 +10,7 @@ use OK\Ipstack\Entity\Location;
  */
 class Client
 {
-    const URL = 'api.ipstack.com/';
+    const URL = 'api.ipstack.com';
     
     /**
      * @var string
@@ -28,13 +28,19 @@ class Client
     private $fields;
     
     /**
+     * @var string 
+     */
+    private $language;
+    
+    /**
      * @param string $key <p>API Access Key</p>
      * @param string $protocol <p>http or https</p>
      * @param array $fields <p>The full list of fields look at https://ipstack.com/documentation</p>
+     * @param string $language <p>The full list of language look at https://ipstack.com/documentation</p>
      *
      * @throws InvalidApiException
      */
-    public function __construct($key = null, string $protocol = 'http', array $fields = ['main'])
+    public function __construct($key = null, string $protocol = 'http', array $fields = ['main'], string $language = 'en')
     {
         if ($key === null) {
             throw new InvalidApiException('You have not API Access Key');
@@ -47,6 +53,24 @@ class Client
         $this->key = $key;
         $this->protocol = $protocol;
         $this->fields = $fields;
+        $this->language = $language;
+    }
+    
+    /**
+     * @param string $language
+     * @return void
+     */
+    public function setLanguage(string $language): void
+    {
+        $this->language = $language;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getLanguage(): string
+    {
+        return $this->language;
     }
     
     /**
@@ -149,18 +173,20 @@ class Client
     
     /**
      * Generate url with api key
+     *
      * @param string $ip
      * @return string
      */
     public function getUrl(string $ip): string
     {
         return sprintf(
-            '%s://%s%s?access_key=%s&fields=%s', 
-            $this->protocol, 
-            self::URL, 
-            $ip, 
+            '%s://%s/%s?access_key=%s&fields=%s&language=%s',
+            $this->protocol,
+            self::URL,
+            $ip,
             $this->key,
-            implode(',', $this->fields)
+            implode(',', $this->fields),
+            $this->language
         );
     }
     
@@ -172,19 +198,19 @@ class Client
     private function createLocation($data): Location
     {
         $location = new Location();
-        
-        $location->setCity($data['city'])
-                ->setContinentCode($data['continent_code'])
-                ->setContinentName($data['continent_name'])
-                ->setCountryCode($data['country_code'])
-                ->setCountryName($data['country_name'])
-                ->setLatitude($data['latitude'])
-                ->setLongitude($data['longitude'])
-                ->setRegionCode($data['region_code'])
-                ->setRegionName($data['region_name'])
-                ->setZip($data['zip'])
-                ->setIp($data['ip'])
-                ->setValid($data['type'] !== null);
+
+        $location->setCity($data['city'] ?? null)
+                ->setContinentCode($data['continent_code'] ?? null)
+                ->setContinentName($data['continent_name'] ?? null)
+                ->setCountryCode($data['country_code'] ?? null)
+                ->setCountryName($data['country_name'] ?? null)
+                ->setLatitude($data['latitude'] ?? null)
+                ->setLongitude($data['longitude'] ?? null)
+                ->setRegionCode($data['region_code'] ?? null)
+                ->setRegionName($data['region_name'] ?? null)
+                ->setZip($data['zip'] ?? null)
+                ->setIp($data['ip'] ?? null)
+                ->setValid((isset($data['type']) && $data['type'] !== null));
         
         return $location;
     }
