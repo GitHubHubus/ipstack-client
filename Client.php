@@ -17,6 +17,10 @@ class Client
      */
     private $key;
     
+    /**
+     * @param string $key
+     * @throws InvalidApiException
+     */
     public function __construct($key = null)
     {
         if ($key === null) {
@@ -28,6 +32,7 @@ class Client
     
     /**
      * Get data by ip from api ipstack
+     *
      * @param string $ip
      * @param bool $isArray
      *
@@ -35,21 +40,38 @@ class Client
      */
     public function get(string $ip, $isArray = false)
     {
-        $url = URL . $ip . '?access_key=' . $this->key;
-        
-        $c = curl_init($url);
-        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
-        $json = curl_exec($c);
-        
-        curl_close($c);
-        
-        $result = json_decode($json, true);
-        
+        $result = $this->request($this->getUrl($ip));
+                    
         if ($result['error']) {
             throw new InvalidApiException("[{$result['error']['code']}][{$result['error']['type']}}] {$result['error']['info']}}");
         }
 
         return $isArray ? $result : $this->createLocation($result);
+    }
+    
+    /**
+     * @param string $url
+     * 
+     * @return array
+     */
+    private function request(string $url): array
+    {
+        $c = curl_init($url);
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+        $json = curl_exec($c);
+        curl_close($c);
+        
+        return json_decode($json, true);
+    }
+    
+    /**
+     * Generate url with api key
+     * @param string $ip
+     * @return string
+     */
+    public function getUrl(string $ip): string
+    {
+        return self::URL . $ip . '?access_key=' . $this->key;
     }
     
     /**
