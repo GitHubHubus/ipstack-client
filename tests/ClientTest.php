@@ -2,17 +2,15 @@
 
 namespace OK\Ipstack\Tests;
 
-use OK\Ipstack\Exception\InvalidApiException;
+use OK\Ipstack\Tests\TestCase;
 use OK\Ipstack\Client;
 use OK\Ipstack\Entity\Location;
 
 /** 
  * @author Oleg Kochetkov <oleg.kochetkov999@yandex.ru>
  */
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
-    const API_KEY = 'test_api_key';
-    
     /**
      * @var Client 
      */
@@ -22,88 +20,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->client = new Client(self::API_KEY);
     }
-    
-    /**
-     * Make private and protected function callable
-     *
-     * @param mixed $object
-     * @param string $function
-     * @return \ReflectionMethod
-     */
-    protected function makeCallable($object, $function)
-    {
-        $method = new \ReflectionMethod($object, $function);
-        $method->setAccessible(true);
 
-        return $method;
-    }
-    
-    /**
-     * Make private and protected property callable
-     *
-     * @param mixed $object
-     * @param string $property
-     * @return \ReflectionProperty
-     */
-    protected function makeCallableProperty($object, $property)
-    {
-        $property = new \ReflectionProperty($object, $property);
-        $property->setAccessible(true);
-
-        return $property;
-    }
-
-    public function testSetLanguage()
-    {
-        $this->assertEquals('en', $this->client->getLanguage());
-        $this->client->setLanguage('ru');
-        $this->assertEquals('ru', $this->client->getLanguage());
-    }
-
-    public function testAddField()
-    {
-        $fieldsProperty = $this->makeCallableProperty($this->client, 'fields');
-        
-        $this->client->addField('country_name');
-        
-        $this->assertEquals(['main', 'country_name'], $fieldsProperty->getValue($this->client));
-        
-        $this->client->addField('country_name');
-        
-        $this->assertEquals(['main', 'country_name'], $fieldsProperty->getValue($this->client));
-    }
-    
-    public function testRemoveField()
-    {
-        $fieldsProperty = $this->makeCallableProperty($this->client, 'fields');
-        
-        $this->client->removeField('country_name');
-        
-        $this->assertEquals(['main'], $fieldsProperty->getValue($this->client));
-        
-        $this->client->removeField('country_name');
-        
-        $this->assertEquals(['main'], $fieldsProperty->getValue($this->client));
-    }
-    
-    public function testSetField()
-    {
-        $fieldsProperty = $this->makeCallableProperty($this->client, 'fields');
-        
-        $this->client->setFields(['country_name', 'country_code']);
-        
-        $this->assertEquals(['country_name', 'country_code'], $fieldsProperty->getValue($this->client));
-    }
-    
-    public function testClearField()
-    {
-        $fieldsProperty = $this->makeCallableProperty($this->client, 'fields');
-        
-        $this->client->clearFields();
-        
-        $this->assertEquals([], $fieldsProperty->getValue($this->client));
-    }
-    
     /**
      * @param string $key
      * @param string $protocol

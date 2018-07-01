@@ -4,6 +4,7 @@ namespace OK\Ipstack;
 
 use OK\Ipstack\Exception\InvalidApiException;
 use OK\Ipstack\Entity\Location;
+use OK\Ipstack\Entity\ParameterBag;
 
 /** 
  * @author Oleg Kochetkov <oleg.kochetkov999@yandex.ru>
@@ -13,24 +14,9 @@ class Client
     const URL = 'api.ipstack.com';
     
     /**
-     * @var string
+     * @var ParameterBag
      */
-    private $protocol;
-    
-    /**
-     * @var string 
-     */
-    private $key;
-
-    /**
-     * @var array
-     */
-    private $fields;
-    
-    /**
-     * @var string 
-     */
-    private $language;
+    private $params;
     
     /**
      * @param string $key <p>API Access Key</p>
@@ -50,68 +36,9 @@ class Client
             throw new \Exception('Incorrect protocol');
         }
         
-        $this->key = $key;
-        $this->protocol = $protocol;
-        $this->fields = $fields;
-        $this->language = $language;
+        $this->params = new Entity\ParameterBag($key);
     }
-    
-    /**
-     * @param string $language
-     * @return void
-     */
-    public function setLanguage(string $language): void
-    {
-        $this->language = $language;
-    }
-    
-    /**
-     * @return string
-     */
-    public function getLanguage(): string
-    {
-        return $this->language;
-    }
-    
-    /**
-     * @param string $field
-     * @return void
-     */
-    public function addField(string $field): void
-    {
-        if (!in_array($field, $this->fields)) {
-            $this->fields[] = $field;
-        }
-    }
-    
-    /**
-     * @param string $field
-     * @return void
-     */
-    public function removeField(string $field): void
-    {
-        if (in_array($field, $this->fields)) {
-            unset($this->fields[$field]);
-        }
-    }
-    
-    /**
-     * @param array $fields
-     * @return void
-     */
-    public function setFields(array $fields): void
-    {
-        $this->fields = $fields;
-    }
-    
-    /**
-     * @return void
-     */
-    public function clearFields(): void
-    {
-        $this->fields = [];
-    }
-    
+
     /**
      * Get data by ip from api ipstack
      *
@@ -181,12 +108,12 @@ class Client
     {
         return sprintf(
             '%s://%s/%s?access_key=%s&fields=%s&language=%s',
-            $this->protocol,
+            $this->params->getProtocol(),
             self::URL,
             $ip,
-            $this->key,
-            implode(',', $this->fields),
-            $this->language
+            $this->params->getKey(),
+            implode(',', $this->params->getFields()),
+            $this->params->getLanguage()
         );
     }
     
@@ -214,5 +141,21 @@ class Client
         
         return $location;
     }
+    
+    /**
+     * @return ParameterBag
+     */
+    public function getParams(): ParameterBag
+    {
+        return $this->params;
+    }
+    
+    /**
+     * @param ParameterBag
+     * @return void
+     */
+    public function setParams(ParameterBag $params): void
+    {
+        $this->params = $params;
+    }
 }
-
