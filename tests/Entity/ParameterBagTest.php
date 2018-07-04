@@ -1,8 +1,8 @@
 <?php
 
-namespace OK\Ipstack\Tests\Entity;
+namespace Tests\Entity;
 
-use OK\Ipstack\Tests\TestCase;
+use Tests\TestCase;
 use OK\Ipstack\Entity\ParameterBag;
 
 /** 
@@ -33,11 +33,11 @@ class ParameterBagTest extends TestCase
         
         $this->params->addField('country_name');
         
-        $this->assertEquals(['main', 'country_name'], $fieldsProperty->getValue($this->params));
+        $this->assertEquals(['country_name'], $fieldsProperty->getValue($this->params));
         
         $this->params->addField('country_name');
         
-        $this->assertEquals(['main', 'country_name'], $fieldsProperty->getValue($this->params));
+        $this->assertEquals(['country_name'], $fieldsProperty->getValue($this->params));
     }
     
     public function testRemoveField()
@@ -46,11 +46,15 @@ class ParameterBagTest extends TestCase
         
         $this->params->removeField('country_name');
         
-        $this->assertEquals(['main'], $fieldsProperty->getValue($this->params));
+        $this->assertEquals([], $fieldsProperty->getValue($this->params));
+        
+        $this->params->addField('country_name');
+        
+        $this->assertEquals(['country_name'], $fieldsProperty->getValue($this->params));
         
         $this->params->removeField('country_name');
         
-        $this->assertEquals(['main'], $fieldsProperty->getValue($this->params));
+        $this->assertEquals([], $fieldsProperty->getValue($this->params));
     }
     
     public function testSetField()

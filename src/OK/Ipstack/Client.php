@@ -20,23 +20,16 @@ class Client
     
     /**
      * @param string $key <p>API Access Key</p>
-     * @param string $protocol <p>http or https</p>
-     * @param array $fields <p>The full list of fields look at https://ipstack.com/documentation</p>
-     * @param string $language <p>The full list of language look at https://ipstack.com/documentation</p>
      *
      * @throws InvalidApiException
      */
-    public function __construct($key = null, string $protocol = 'http', array $fields = ['main'], string $language = 'en')
+    public function __construct($key = null)
     {
         if ($key === null) {
             throw new InvalidApiException('You have not API Access Key');
         }
         
-        if (!in_array($protocol, ['http', 'https'])) {
-            throw new \Exception('Incorrect protocol');
-        }
-        
-        $this->params = new Entity\ParameterBag($key);
+        $this->params = new ParameterBag($key);
     }
 
     /**

@@ -1,8 +1,8 @@
 <?php
 
-namespace OK\Ipstack\Tests;
+namespace Tests;
 
-use OK\Ipstack\Tests\TestCase;
+use Tests\TestCase;
 use OK\Ipstack\Client;
 use OK\Ipstack\Entity\Location;
 
@@ -32,7 +32,10 @@ class ClientTest extends TestCase
      */
     public function testGetUrl($key, $protocol, $ip, $fields, $language)
     {
-        $client = new Client($key, $protocol, $fields, $language);
+        $client = new Client($key);
+        $client->getParams()->setProtocol($protocol)
+                ->setFields($fields)
+                ->setLanguage($language);
         
         $this->assertEquals("{$protocol}://" . Client::URL . "/{$ip}?access_key={$key}&fields=" . implode(',', $fields) . "&language={$language}", $client->getUrl($ip));
     }

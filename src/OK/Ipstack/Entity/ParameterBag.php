@@ -144,7 +144,7 @@ class ParameterBag
      */
     public function setLanguage(string $language): ParameterBag
     {
-        if (!in_array($language, self::$languages)) {
+        if (!in_array($language, self::LANGUAGES)) {
             throw new InvalidParameterException(sprintf("Invalid language '%s'. Please, use one of existing languages [%s]", $language, implode(',', self::$languages)));
         }
         
@@ -199,8 +199,8 @@ class ParameterBag
      */
     public function removeField(string $field): ParameterBag
     {
-        if (in_array($field, $this->fields)) {
-            unset($this->fields[$field]);
+        if (($key = array_search($field, $this->fields)) !== false) {
+            unset($this->fields[$key]);
         }
         
         return $this;
@@ -227,5 +227,13 @@ class ParameterBag
         $this->fields = [];
         
         return $this;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getFields(): array
+    {
+        return $this->fields;
     }
 }
