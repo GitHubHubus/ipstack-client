@@ -2,7 +2,7 @@
 
 namespace OK\Ipstack\Entity;
 
-use OK\Ipstack\Exception\InvalidParameterException;
+use OK\Ipstack\Exceptions\InvalidParameterException;
 
 /**
  * @author Oleg Kochetkov <oleg.kochetkov999@yandex.ru>
@@ -12,8 +12,8 @@ class ParameterBag
     const PROTOCOL_HTTP = 'http';
     const PROTOCOL_HTTPS = 'https';
     
-    const FORMAT_JSON = 'JSON';
-    const FORMAT_XML = 'XML';
+    const FORMAT_JSON = 'json';
+    const FORMAT_XML = 'xml';
     
     const FIELDS = [
         "main",

@@ -27,17 +27,19 @@ class ClientTest extends TestCase
      * @param string $ip
      * @param array $fields
      * @param string $language
+     * @param string $format
      * 
      * @dataProvider getUrlProvider
      */
-    public function testGetUrl($key, $protocol, $ip, $fields, $language)
+    public function testGetUrl($key, $protocol, $ip, $fields, $language, $format)
     {
         $client = new Client($key);
         $client->getParams()->setProtocol($protocol)
                 ->setFields($fields)
-                ->setLanguage($language);
+                ->setLanguage($language)
+                ->setFormat($format);
         
-        $this->assertEquals("{$protocol}://" . Client::URL . "/{$ip}?access_key={$key}&fields=" . implode(',', $fields) . "&language={$language}", $client->getUrl($ip));
+        $this->assertEquals("{$protocol}://" . Client::URL . "/{$ip}?access_key={$key}&fields=" . implode(',', $fields) . "&language={$language}&output={$format}", $client->getUrl($ip));
     }
 
     /**
@@ -56,9 +58,9 @@ class ClientTest extends TestCase
     public function getUrlProvider()
     {
         return [
-            ['key1', 'http', '12.12.12.12', ['main'], 'en'],
-            ['key1', 'https', '12.12.12.12', ['country_name', 'country_code'], 'en'],
-            ['key1', 'http', '12.12.12.12,234.123.123.123', [], 'en'],
+            ['key1', 'http', '12.12.12.12', ['main'], 'en', 'json'],
+            ['key1', 'https', '12.12.12.12', ['country_name', 'country_code'], 'en', 'xml'],
+            ['key1', 'http', '12.12.12.12,234.123.123.123', [], 'en', 'json'],
         ];
     }
     

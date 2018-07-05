@@ -2,7 +2,7 @@
 
 namespace OK\Ipstack;
 
-use OK\Ipstack\Exception\InvalidApiException;
+use OK\Ipstack\Exceptions\InvalidApiException;
 use OK\Ipstack\Entity\Location;
 use OK\Ipstack\Entity\ParameterBag;
 
@@ -44,7 +44,7 @@ class Client
     {
         $result = $this->request($this->getUrl($ip));
                     
-        if ($result['error']) {
+        if (isset($result['error'])) {
             throw new InvalidApiException("[{$result['error']['code']}][{$result['error']['type']}}] {$result['error']['info']}}");
         }
 
@@ -85,10 +85,15 @@ class Client
     {
         $c = curl_init($url);
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
-        $json = curl_exec($c);
+        $response = curl_exec($c);
         curl_close($c);
         
-        return json_decode($json, true);
+        if ($this->params->getFormat() === ParameterBag::FORMAT_XML) {
+            $xml = simplexml_load_string($response);
+            $response = json_encode($xml);
+        }
+        
+        return json_decode($response, true);
     }
     
     /**
@@ -100,13 +105,14 @@ class Client
     public function getUrl(string $ip): string
     {
         return sprintf(
-            '%s://%s/%s?access_key=%s&fields=%s&language=%s',
+            '%s://%s/%s?access_key=%s&fields=%s&language=%s&output=%s',
             $this->params->getProtocol(),
             self::URL,
             $ip,
             $this->params->getKey(),
             implode(',', $this->params->getFields()),
-            $this->params->getLanguage()
+            $this->params->getLanguage(),
+            $this->params->getFormat()
         );
     }
     

@@ -1,6 +1,6 @@
 <?php
 
-namespace OK\Ipstack\Exception;
+namespace OK\Ipstack\Exceptions;
 
 /**
  * @author Oleg Kochetkov <oleg.kochetkov999@yandex.ru>
