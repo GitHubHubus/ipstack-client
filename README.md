@@ -1,5 +1,5 @@
 # ipstack-client
-A PHP wrapper for using Ipstack API 
+A PHP wrapper for using Ipstack [API](https://ipstack.com/)
 
 Install via `composer`:
 ```sh
