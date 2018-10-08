@@ -39,6 +39,7 @@ class Client
      * @param bool $isArray
      *
      * @return mixed
+     * @throws InvalidApiException
      */
     public function get(string $ip, $isArray = false)
     {
@@ -58,6 +59,7 @@ class Client
      * @param bool $isArray
      *
      * @return mixed
+     * @throws InvalidApiException
      */
     public function getBulk(array $ips, $isArray = false)
     {
