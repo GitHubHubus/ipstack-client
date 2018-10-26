@@ -63,6 +63,18 @@ class Location
     protected $ip;
     
     /**
+     * @var string
+     */
+    protected $callingCode;
+    
+    /**
+     * @var bool
+     */
+    protected $isEu;
+    
+    /**
+     * Internal variable for checking that the type of ip protocol is valid
+     *
      * @var valid
      */
     protected $valid;
@@ -258,9 +270,9 @@ class Location
     }
     
     /**
-     * @return string|null
+     * @return float|null
      */
-    public function getLatitude(): ?string
+    public function getLatitude(): ?float
     {
         return $this->latitude;
     }
@@ -277,9 +289,9 @@ class Location
     }
     
     /**
-     * @return string|null
+     * @return float|null
      */
-    public function getLongitude(): ?string
+    public function getLongitude(): ?float
     {
         return $this->longitude;
     }
@@ -291,6 +303,44 @@ class Location
     public function setLongitude(float $longitude = null): Location
     {
         $this->longitude = $longitude;
+        
+        return $this;
+    }
+    
+    /**
+     * @return string|null
+     */
+    public function getCallingCode(): ?string
+    {
+        return $this->callingCode;
+    }
+
+    /**
+     * @param string|null $code
+     * @return Location
+     */
+    public function setCallingCode(string $code = null): Location
+    {
+        $this->callingCode = $code;
+        
+        return $this;
+    }
+    
+    /**
+     * @return bool|null
+     */
+    public function getIsEu(): ?bool
+    {
+        return $this->isEu;
+    }
+
+    /**
+     * @param bool|null $eu
+     * @return Location
+     */
+    public function setIsEu(bool $eu = null): Location
+    {
+        $this->isEu = $eu;
         
         return $this;
     }

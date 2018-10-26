@@ -73,11 +73,13 @@ class ClientTest extends TestCase
         $location2 = new Location();
         $location2->setCity('New York')
                 ->setIp('211.234.3.4')
+                ->setIsEu(false)
                 ->setValid(true);
         
         $location3 = new Location();
         $location3->setZip('25721')
                 ->setIp('1.1.1.1')
+                ->setCallingCode('1')
                 ->setValid(false);
         
         return [
@@ -85,10 +87,10 @@ class ClientTest extends TestCase
                 ['city' => 'Moscow'], $location1
             ],
             [
-                ['city' => 'New York', 'ip' => '211.234.3.4', 'type' => 'ipv4'], $location2
+                ['city' => 'New York', 'ip' => '211.234.3.4', 'type' => 'ipv4', 'isEu' => false], $location2
             ],
             [
-                ['zip' => '25721', 'ip' => '1.1.1.1', 'type' => null], $location3
+                ['zip' => '25721', 'ip' => '1.1.1.1', 'type' => null, 'calling_code' => '1'], $location3
             ]
         ];
     }

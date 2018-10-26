@@ -138,6 +138,8 @@ class Client
                 ->setRegionName($data['region_name'] ?? null)
                 ->setZip($data['zip'] ?? null)
                 ->setIp($data['ip'] ?? null)
+                ->setCallingCode($data['calling_code'] ?? null)
+                ->setIsEu($data['isEu'] ?? null)
                 ->setValid((isset($data['type']) && $data['type'] !== null));
         
         return $location;
