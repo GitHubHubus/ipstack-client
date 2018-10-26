@@ -1,3 +1,7 @@
+[![Latest Stable Version](https://poser.pugx.org/ok/ipstack-client/version)](https://packagist.org/packages/ok/ipstack-client)
+[![Total Downloads](https://poser.pugx.org/ok/ipstack-client/downloads)](https://packagist.org/packages/ok/ipstack-client)
+[![License](https://poser.pugx.org/ok/ipstack-client/license)](https://packagist.org/packages/ok/ipstack-client)
+
 # ipstack-client
 A PHP wrapper for using Ipstack [API](https://ipstack.com/)
 
