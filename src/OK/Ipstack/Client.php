@@ -12,18 +12,15 @@ use OK\Ipstack\Entity\ParameterBag;
 class Client
 {
     const URL = 'api.ipstack.com';
-    
-    /**
-     * @var ParameterBag
-     */
-    private $params;
+
+    private ParameterBag $params;
     
     /**
      * @param string $key <p>API Access Key</p>
      *
      * @throws InvalidApiException
      */
-    public function __construct($key = null)
+    public function __construct(?string $key = null)
     {
         if ($key === null) {
             throw new InvalidApiException('You have not API Access Key');
@@ -35,13 +32,10 @@ class Client
     /**
      * Get data by ip from api ipstack
      *
-     * @param string $ip
-     * @param bool $isArray
-     *
-     * @return mixed
+     * @return Location|array
      * @throws InvalidApiException
      */
-    public function get(string $ip, $isArray = false)
+    public function get(string $ip, bool $isArray = false)
     {
         $result = $this->request($this->getUrl($ip));
                     
@@ -55,13 +49,10 @@ class Client
     /**
      * Get data by array ip's from api ipstack
      *
-     * @param array $ips
-     * @param bool $isArray
-     *
-     * @return mixed
+     * @return Location|array
      * @throws InvalidApiException
      */
-    public function getBulk(array $ips, $isArray = false)
+    public function getBulk(array $ips, bool $isArray = false)
     {
         $result = $this->request($this->getUrl(implode(',', $ips)));
                     
@@ -77,15 +68,18 @@ class Client
 
         return $result;
     }
-    
+
     /**
-     * @param string $url
-     * 
-     * @return array
+     * @throws InvalidApiException
      */
     private function request(string $url): array
     {
         $c = curl_init($url);
+
+        if ($c === false) {
+            throw new InvalidApiException("Can't init connection to $url");
+        }
+
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($c);
         curl_close($c);
@@ -100,9 +94,6 @@ class Client
     
     /**
      * Generate url with api key
-     *
-     * @param string $ip
-     * @return string
      */
     public function getUrl(string $ip): string
     {
@@ -117,13 +108,8 @@ class Client
             $this->params->getFormat()
         );
     }
-    
-    /**
-     * @param array $data
-     * 
-     * @return Location
-     */
-    private function createLocation($data): Location
+
+    private function createLocation(array $data): Location
     {
         $location = new Location();
 
@@ -144,19 +130,12 @@ class Client
         
         return $location;
     }
-    
-    /**
-     * @return ParameterBag
-     */
+
     public function getParams(): ParameterBag
     {
         return $this->params;
     }
-    
-    /**
-     * @param ParameterBag
-     * @return void
-     */
+
     public function setParams(ParameterBag $params): void
     {
         $this->params = $params;

@@ -68,19 +68,51 @@ class ClientTest extends TestCase
     {
         $location1 = new Location();
         $location1->setCity('Moscow')
-                ->setValid(false);
+                ->setValid(false)
+                ->setContinentCode()
+                ->setZip()
+                ->setContinentName()
+                ->setCallingCode()
+                ->setCountryCode()
+                ->setCountryName()
+                ->setIp()
+                ->setIsEu()
+                ->setRegionCode()
+                ->setRegionName()
+                ->setLatitude()
+                ->setLongitude();
         
         $location2 = new Location();
         $location2->setCity('New York')
                 ->setIp('211.234.3.4')
                 ->setIsEu(false)
-                ->setValid(true);
+                ->setValid(true)
+                ->setContinentCode()
+                ->setZip()
+                ->setContinentName()
+                ->setCallingCode()
+                ->setCountryCode()
+                ->setCountryName()
+                ->setRegionCode()
+                ->setRegionName()
+                ->setLatitude()
+                ->setLongitude();
         
         $location3 = new Location();
         $location3->setZip('25721')
                 ->setIp('1.1.1.1')
                 ->setCallingCode('1')
-                ->setValid(false);
+                ->setValid(false)
+                ->setContinentCode()
+                ->setContinentName()
+                ->setCountryCode()
+                ->setCountryName()
+                ->setIsEu()
+                ->setRegionCode()
+                ->setRegionName()
+                ->setLatitude()
+                ->setLongitude()
+                ->setCity();
         
         return [
             [

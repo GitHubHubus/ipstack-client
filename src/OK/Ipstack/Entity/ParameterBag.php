@@ -9,13 +9,13 @@ use OK\Ipstack\Exceptions\InvalidParameterException;
  */
 class ParameterBag
 {
-    const PROTOCOL_HTTP = 'http';
-    const PROTOCOL_HTTPS = 'https';
-    
-    const FORMAT_JSON = 'json';
-    const FORMAT_XML = 'xml';
-    
-    const FIELDS = [
+    public const PROTOCOL_HTTP = 'http';
+    public const PROTOCOL_HTTPS = 'https';
+
+    public const FORMAT_JSON = 'json';
+    public const FORMAT_XML = 'xml';
+
+    public const FIELDS = [
         "main",
         "ip",
         "hostname",
@@ -43,8 +43,8 @@ class ParameterBag
         "calling_code",
         "is_eu"
     ];
-    
-    const LANGUAGES = [
+
+    public const LANGUAGES = [
         'en',
         'de',
         'es',
@@ -55,42 +55,20 @@ class ParameterBag
         'zh'
     ];
     
-    private static $formats = [
+    private static array $formats = [
         self::FORMAT_JSON,
         self::FORMAT_XML
     ];
     
-    private static $protocols = [self::PROTOCOL_HTTP, self::PROTOCOL_HTTPS];
-    
-    /**
-     * @var string
-     */
-    protected $key;
-    
-    /**
-     * @var string
-     */
-    protected $protocol;
-    
-    /**
-     * @var array
-     */
-    protected $fields;
-    
-    /**
-     * @var string
-     */
-    protected $language;
-    
-    /**
-     * @var string
-     */
-    protected $format;
+    private static array $protocols = [self::PROTOCOL_HTTP, self::PROTOCOL_HTTPS];
 
-    /**
-     * @param string|null $key
-     */
-    public function __construct($key = null)
+    protected string $key;
+    protected string $protocol;
+    protected array $fields;
+    protected string $language;
+    protected string $format;
+
+    public function __construct(string $key)
     {
         $this->key = $key;
         $this->protocol = self::PROTOCOL_HTTP;
@@ -98,26 +76,19 @@ class ParameterBag
         $this->language = 'en';
         $this->format = self::FORMAT_JSON;
     }
-    
-    /**
-     * @return string|null
-     */
-    public function getKey(): ?string
+
+    public function getKey(): string
     {
         return $this->key;
     }
-    
-    /**
-     * @return string
-     */
+
     public function getProtocol(): string
     {
         return $this->protocol;
     }
-    
+
     /**
-     * @param string $protocol
-     * @return ParameterBag
+     * @throws InvalidParameterException
      */
     public function setProtocol(string $protocol): ParameterBag
     {
@@ -129,18 +100,14 @@ class ParameterBag
 
         return $this;
     }
-    
-    /**
-     * @return string
-     */
+
     public function getLanguage(): string
     {
         return $this->language;
     }
-    
+
     /**
-     * @param string $language
-     * @return ParameterBag
+     * @throws InvalidParameterException
      */
     public function setLanguage(string $language): ParameterBag
     {
@@ -152,18 +119,14 @@ class ParameterBag
 
         return $this;
     }
-    
-    /**
-     * @return string
-     */
+
     public function getFormat(): string
     {
         return $this->format;
     }
 
     /**
-     * @param string $format
-     * @return ParameterBag
+     * @throws InvalidParameterException
      */
     public function setFormat(string $format): ParameterBag
     {
@@ -175,10 +138,9 @@ class ParameterBag
         
         return $this;
     }
-    
+
     /**
-     * @param string $field
-     * @return ParameterBag
+     * @throws InvalidParameterException
      */
     public function addField(string $field): ParameterBag
     {
@@ -192,11 +154,7 @@ class ParameterBag
         
         return $this;
     }
-    
-    /**
-     * @param string $field
-     * @return ParameterBag
-     */
+
     public function removeField(string $field): ParameterBag
     {
         if (($key = array_search($field, $this->fields)) !== false) {
@@ -205,10 +163,9 @@ class ParameterBag
         
         return $this;
     }
-    
+
     /**
-     * @param array $fields
-     * @return ParameterBag
+     * @throws InvalidParameterException
      */
     public function setFields(array $fields): ParameterBag
     {
@@ -218,20 +175,14 @@ class ParameterBag
         
         return $this;
     }
-    
-    /**
-     * @return ParameterBag
-     */
+
     public function clearFields(): ParameterBag
     {
         $this->fields = [];
         
         return $this;
     }
-    
-    /**
-     * @return array
-     */
+
     public function getFields(): array
     {
         return $this->fields;
