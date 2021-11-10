@@ -8,6 +8,7 @@ namespace OK\Ipstack\Entity;
 class Location
 {
     protected ?string $city;
+    protected ?string $hostname;
     protected ?string $continentCode;
     protected ?string $continentName;
     protected ?string $countryCode;
@@ -46,6 +47,18 @@ class Location
     public function setIp(?string $ip = null): Location
     {
         $this->ip = $ip;
+
+        return $this;
+    }
+
+    public function getHostname(): ?string
+    {
+        return $this->hostname;
+    }
+
+    public function setHostname(?string $hostname = null): Location
+    {
+        $this->hostname = $hostname;
 
         return $this;
     }

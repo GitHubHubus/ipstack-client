@@ -67,6 +67,8 @@ class ParameterBag
     protected array $fields;
     protected string $language;
     protected string $format;
+    protected bool $hostnameLookup = false;
+    protected bool $securityModule = false;
 
     public function __construct(string $key)
     {
@@ -80,6 +82,44 @@ class ParameterBag
     public function getKey(): string
     {
         return $this->key;
+    }
+
+    public function isHostnameLookupEnabled(): bool
+    {
+        return $this->hostnameLookup;
+    }
+
+    public function enableHostnameLookup(): ParameterBag
+    {
+        $this->hostnameLookup = true;
+
+        return $this;
+    }
+
+    public function disableHostnameLookup(): ParameterBag
+    {
+        $this->hostnameLookup = false;
+
+        return $this;
+    }
+
+    public function isSecurityModuleEnabled(): bool
+    {
+        return $this->securityModule;
+    }
+
+    public function enableSecurityModule(): ParameterBag
+    {
+        $this->securityModule = true;
+
+        return $this;
+    }
+
+    public function disableSecurityModule(): ParameterBag
+    {
+        $this->securityModule = false;
+
+        return $this;
     }
 
     public function getProtocol(): string

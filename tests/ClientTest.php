@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use Tests\TestCase;
 use OK\Ipstack\Client;
 use OK\Ipstack\Entity\Location;
 
@@ -11,10 +10,7 @@ use OK\Ipstack\Entity\Location;
  */
 class ClientTest extends TestCase
 {
-    /**
-     * @var Client 
-     */
-    protected $client;
+    protected Client $client;
     
     protected function setUp()
     {
@@ -22,7 +18,6 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @param string $key
      * @param string $protocol
      * @param string $ip
      * @param array $fields
@@ -31,15 +26,18 @@ class ClientTest extends TestCase
      * 
      * @dataProvider getUrlProvider
      */
-    public function testGetUrl($key, $protocol, $ip, $fields, $language, $format)
+    public function testGetUrl($protocol, $ip, $fields, $language, $format)
     {
-        $client = new Client($key);
-        $client->getParams()->setProtocol($protocol)
+        $this->client->getParams()
+                ->setProtocol($protocol)
                 ->setFields($fields)
                 ->setLanguage($language)
-                ->setFormat($format);
-        
-        $this->assertEquals("{$protocol}://" . Client::URL . "/{$ip}?access_key={$key}&fields=" . implode(',', $fields) . "&language={$language}&output={$format}", $client->getUrl($ip));
+                ->setFormat($format)
+                ->enableHostnameLookup();
+
+        $expectation = "$protocol://" . Client::URL . "/$ip?access_key=test_api_key&fields=" . implode(',', $fields) . "&language=$language&output=$format&hostname=1&security=0";
+
+        $this->assertEquals($expectation, $this->client->getUrl($ip));
     }
 
     /**
@@ -58,9 +56,9 @@ class ClientTest extends TestCase
     public function getUrlProvider()
     {
         return [
-            ['key1', 'http', '12.12.12.12', ['main'], 'en', 'json'],
-            ['key1', 'https', '12.12.12.12', ['country_name', 'country_code'], 'en', 'xml'],
-            ['key1', 'http', '12.12.12.12,234.123.123.123', [], 'en', 'json'],
+            ['http', '12.12.12.12', ['main'], 'en', 'json'],
+            ['https', '12.12.12.12', ['country_name', 'country_code'], 'en', 'xml'],
+            ['http', '12.12.12.12,234.123.123.123', [], 'en', 'json'],
         ];
     }
     
@@ -80,7 +78,8 @@ class ClientTest extends TestCase
                 ->setRegionCode()
                 ->setRegionName()
                 ->setLatitude()
-                ->setLongitude();
+                ->setLongitude()
+                ->setHostname();
         
         $location2 = new Location();
         $location2->setCity('New York')
@@ -96,7 +95,8 @@ class ClientTest extends TestCase
                 ->setRegionCode()
                 ->setRegionName()
                 ->setLatitude()
-                ->setLongitude();
+                ->setLongitude()
+                ->setHostname();
         
         $location3 = new Location();
         $location3->setZip('25721')
@@ -112,7 +112,8 @@ class ClientTest extends TestCase
                 ->setRegionName()
                 ->setLatitude()
                 ->setLongitude()
-                ->setCity();
+                ->setCity()
+                ->setHostname();
         
         return [
             [

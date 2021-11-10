@@ -35,7 +35,7 @@ class Client
      * @return Location|array
      * @throws InvalidApiException
      */
-    public function get(string $ip, bool $isArray = false)
+    public function get(string $ip, bool $isArray = true)
     {
         $result = $this->request($this->getUrl($ip));
                     
@@ -98,14 +98,16 @@ class Client
     public function getUrl(string $ip): string
     {
         return sprintf(
-            '%s://%s/%s?access_key=%s&fields=%s&language=%s&output=%s',
+            '%s://%s/%s?access_key=%s&fields=%s&language=%s&output=%s&hostname=%s&security=%s',
             $this->params->getProtocol(),
             self::URL,
             $ip,
             $this->params->getKey(),
             implode(',', $this->params->getFields()),
             $this->params->getLanguage(),
-            $this->params->getFormat()
+            $this->params->getFormat(),
+            (int)$this->params->isHostnameLookupEnabled(),
+            (int)$this->params->isSecurityModuleEnabled()
         );
     }
 
@@ -114,6 +116,7 @@ class Client
         $location = new Location();
 
         $location->setCity($data['city'] ?? null)
+                ->setHostname($data['hostname'] ?? null)
                 ->setContinentCode($data['continent_code'] ?? null)
                 ->setContinentName($data['continent_name'] ?? null)
                 ->setCountryCode($data['country_code'] ?? null)

@@ -27,6 +27,20 @@ class ParameterBagTest extends TestCase
         $this->assertEquals('ru', $this->params->getLanguage());
     }
 
+    public function testEnableHostnameLookup()
+    {
+        $this->assertEquals(false, $this->params->isHostnameLookupEnabled());
+        $this->params->enableHostnameLookup();
+        $this->assertEquals(true, $this->params->isHostnameLookupEnabled());
+    }
+
+    public function testEnableSecurityModule()
+    {
+        $this->assertEquals(false, $this->params->isSecurityModuleEnabled());
+        $this->params->enableSecurityModule();
+        $this->assertEquals(true, $this->params->isSecurityModuleEnabled());
+    }
+
     public function testAddField()
     {
         $fieldsProperty = $this->makeCallableProperty($this->params, 'fields');
