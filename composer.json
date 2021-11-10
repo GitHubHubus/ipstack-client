@@ -4,6 +4,7 @@
     "description": "A PHP wrapper for using Ipstack API",
     "keywords": ["api", "client", "ip", "ipstack", "geocode", "php"],
     "homepage": "https://github.com/GitHubHubus/ipstack-client",
+    "license": "MIT",
     "authors": [
         {
             "name": "Oleg Kochetkov",
