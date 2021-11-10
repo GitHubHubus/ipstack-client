@@ -15,7 +15,7 @@ composer require ok/ipstack-client
 Get data as the [Location](https://github.com/GitHubHubus/ipstack-client/blob/master/src/OK/Ipstack/Entity/Location.php) object:
 ```php
 $client = new OK\Ipstack\Client('api_key');
-$location = $client->get('134.201.250.155');
+$location = $client->get('134.201.250.155', false);
 var_dump($location);
 ```
 result:
@@ -51,7 +51,7 @@ class OK\Ipstack\Entity\Location#3 (12) {
 Get data as a simple array:
 ```php
 $client = new OK\Ipstack\Client('api_key');
-$location = $client->get('134.201.250.155', true);
+$location = $client->get('134.201.250.155');
 var_dump($location);
 ```
 result:
