@@ -1,11 +1,11 @@
 <?php
 
-namespace OK\Ipstack\Entity;
+namespace OK\Ipstack\Entity\Dto;
 
 /**
  * @author Oleg Kochetkov <oleg.kochetkov999@yandex.ru>
  */
-class Location
+class Location implements DtoInterface
 {
     protected ?string $city;
     protected ?string $hostname;
@@ -39,9 +39,9 @@ class Location
         return $this;
     }
 
-    public function getIp(): ?string
+    public function getIp(): string
     {
-        return $this->ip;
+        return $this->ip ?? '';
     }
 
     public function setIp(?string $ip = null): Location
