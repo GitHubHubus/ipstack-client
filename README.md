@@ -111,11 +111,25 @@ array(13) {
 }
 ```
 
-#### Information
-Available [params](https://github.com/GitHubHubus/ipstack-client/blob/master/src/OK/Ipstack/Entity/ParameterBag.php) for getting custom result
+## Information
 
-As example
+#### Modifiable output params
+Available [params](https://github.com/GitHubHubus/ipstack-client/blob/master/src/OK/Ipstack/Entity/Params/IpstackParams.php) for getting custom result
+
+For example:
 ```php
 $client = new OK\Ipstack\Client('api_key');
 $client->getParams()->addField("calling_code");
+```
+
+#### Data providers
+Now, here are available several providers: 
+* [TYPE_IPSTACK](https://ipstack.com/)
+* [TYPE_IPAPI](https://ipapi.com/)
+ 
+You can change provider by pass one of type above as second argument in constructor
+
+For example:
+```php
+$client = new OK\Ipstack\Client('api_key', OK\Ipstack\Provider\ProviderFactory::TYPE_IPAPI);
 ```
