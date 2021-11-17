@@ -3,7 +3,6 @@
 namespace OK\Ipstack\Provider;
 
 use OK\Ipstack\Entity\Dto\DtoInterface;
-use OK\Ipstack\Entity\Dto\Location;
 use OK\Ipstack\Entity\Dto\LocationFactory;
 use OK\Ipstack\Entity\Params\IpstackParams;
 use OK\Ipstack\Exceptions\InvalidApiException;
@@ -14,12 +13,12 @@ use OK\Ipstack\Exceptions\InvalidApiException;
 class Ipstack extends CommonProvider
 {
     protected static $url = 'api.ipstack.com';
-    private IpstackParams $params;
     private LocationFactory $locationFactory;
 
     public function __construct(IpstackParams $params, LocationFactory $factory)
     {
-        $this->params = $params;
+        parent::__construct($params);
+
         $this->locationFactory = $factory;
     }
 
@@ -28,11 +27,11 @@ class Ipstack extends CommonProvider
      */
     public function getDto(string $ip): DtoInterface
     {
-        $data = parent::get($ip);
+        $data = $this->get($ip);
 
         return $this->locationFactory->create($data);
     }
-    
+
     /**
      * @throws InvalidApiException
      */
@@ -40,7 +39,7 @@ class Ipstack extends CommonProvider
     {
         $result = $this->getBulk($ips);
 
-        return $this->locationFactory->createArray($result);
+        return count($ips) > 1 ? $this->locationFactory->createArray($result) : [$this->locationFactory->create($result)];
     }
 
     public function getUrl(string $ip): string

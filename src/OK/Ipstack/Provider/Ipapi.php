@@ -13,12 +13,12 @@ use OK\Ipstack\Exceptions\InvalidApiException;
 class Ipapi extends CommonProvider
 {
     protected static $url = 'api.ipapi.com';
-    private IpapiParams $params;
     private LocationFactory $locationFactory;
 
     public function __construct(IpapiParams $params, LocationFactory $factory)
     {
-        $this->params = $params;
+        parent::__construct($params);
+
         $this->locationFactory = $factory;
     }
 
@@ -27,7 +27,7 @@ class Ipapi extends CommonProvider
      */
     public function getDto(string $ip): DtoInterface
     {
-        $data = parent::get($ip);
+        $data = $this->get($ip);
 
         return $this->locationFactory->create($data);
     }
@@ -39,7 +39,7 @@ class Ipapi extends CommonProvider
     {
         $result = $this->getBulk($ips);
 
-        return $this->locationFactory->createArray($result);
+        return count($ips) > 1 ? $this->locationFactory->createArray($result) : [$this->locationFactory->create($result)];
     }
 
     public function getUrl(string $ip): string

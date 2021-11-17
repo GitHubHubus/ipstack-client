@@ -11,7 +11,12 @@ use OK\Ipstack\Exceptions\InvalidApiException;
 abstract class CommonProvider implements DataProviderInterface
 {
     protected static $url = '';
-    private ParameterBagInterface $params;
+    protected ParameterBagInterface $params;
+
+    public function __construct(ParameterBagInterface $params)
+    {
+        $this->params = $params;
+    }
 
     /**
      * @throws InvalidApiException
@@ -34,7 +39,7 @@ abstract class CommonProvider implements DataProviderInterface
     {
         $result = $this->request($this->getUrl(implode(',', $ips)));
                     
-        if ($result['error']) {
+        if (isset($result['error'])) {
             throw new InvalidApiException("[{$result['error']['code']}][{$result['error']['type']}}] {$result['error']['info']}}");
         }
 

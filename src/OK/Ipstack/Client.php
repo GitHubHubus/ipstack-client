@@ -13,9 +13,11 @@ use OK\Ipstack\Provider\ProviderFactory;
 class Client
 {
     private DataProviderInterface $provider;
-    
+
     /**
      * @param string $key <p>API Access Key</p>
+     *
+     * @throws Exceptions\InvalidProviderException
      */
     public function __construct(string $key, ?string $type = ProviderFactory::TYPE_IPSTACK)
     {

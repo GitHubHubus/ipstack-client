@@ -2,8 +2,6 @@
 
 namespace OK\Ipstack\Entity\Params;
 
-use OK\Ipstack\Exceptions\InvalidParameterException;
-
 /**
  * @author Oleg Kochetkov <oleg.kochetkov999@yandex.ru>
  */
@@ -30,4 +28,5 @@ interface ParameterBagInterface
     public function getFormat(): string;
     public function getProtocol(): string;
     public function getLanguage(): string;
+    public function getFields(): array;
 }
