@@ -3,21 +3,23 @@
 namespace OK\Ipstack\Provider;
 
 use OK\Ipstack\Entity\Dto\DtoInterface;
-use OK\Ipstack\Entity\Dto\Location;
+use OK\Ipstack\Entity\Dto\LocationFactory;
 use OK\Ipstack\Entity\Params\IpapiParams;
 use OK\Ipstack\Exceptions\InvalidApiException;
 
 /** 
  * @author Oleg Kochetkov <oleg.kochetkov999@yandex.ru>
  */
-class Ipapi extends Ipstack
+class Ipapi extends CommonProvider
 {
     protected static $url = 'api.ipapi.com';
     private IpapiParams $params;
+    private LocationFactory $locationFactory;
 
-    public function __construct(string $key)
+    public function __construct(IpapiParams $params, LocationFactory $factory)
     {
-        $this->params = new IpapiParams($key);
+        $this->params = $params;
+        $this->locationFactory = $factory;
     }
 
     /**
@@ -25,11 +27,11 @@ class Ipapi extends Ipstack
      */
     public function getDto(string $ip): DtoInterface
     {
-        $data = $this->get($ip);
+        $data = parent::get($ip);
 
-        return $this->createLocation($data);
+        return $this->locationFactory->create($data);
     }
-    
+
     /**
      * @throws InvalidApiException
      */
@@ -37,11 +39,7 @@ class Ipapi extends Ipstack
     {
         $result = $this->getBulk($ips);
 
-        foreach ($result as $key => $locationData) {
-            $result[$key] = $this->createLocation($locationData);
-        }
-
-        return $result;
+        return $this->locationFactory->createArray($result);
     }
 
     public function getUrl(string $ip): string
@@ -58,28 +56,5 @@ class Ipapi extends Ipstack
             (int)$this->params->isHostnameLookupEnabled(),
             (int)$this->params->isSecurityModuleEnabled()
         );
-    }
-
-    private function createLocation(array $data): Location
-    {
-        $location = new Location();
-
-        $location->setCity($data['city'] ?? null)
-            ->setHostname($data['hostname'] ?? null)
-            ->setContinentCode($data['continent_code'] ?? null)
-            ->setContinentName($data['continent_name'] ?? null)
-            ->setCountryCode($data['country_code'] ?? null)
-            ->setCountryName($data['country_name'] ?? null)
-            ->setLatitude($data['latitude'] ?? null)
-            ->setLongitude($data['longitude'] ?? null)
-            ->setRegionCode($data['region_code'] ?? null)
-            ->setRegionName($data['region_name'] ?? null)
-            ->setZip($data['zip'] ?? null)
-            ->setIp($data['ip'] ?? null)
-            ->setCallingCode($data['calling_code'] ?? null)
-            ->setIsEu($data['isEu'] ?? null)
-            ->setValid((isset($data['type']) && $data['type'] !== null));
-
-        return $location;
     }
 }
