@@ -5,7 +5,7 @@ namespace Tests;
 /** 
  * @author Oleg Kochetkov <oleg.kochetkov999@yandex.ru>
  */
-abstract class TestCase extends \PHPUnit_Framework_TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     const API_KEY = 'test_api_key';
     

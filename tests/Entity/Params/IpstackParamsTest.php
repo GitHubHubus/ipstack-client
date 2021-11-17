@@ -1,23 +1,23 @@
 <?php
 
-namespace Tests\Entity;
+namespace Tests\Entity\Params;
 
+use OK\Ipstack\Entity\Params\IpstackParams;
 use Tests\TestCase;
-use OK\Ipstack\Entity\ParameterBag;
 
 /** 
  * @author Oleg Kochetkov <oleg.kochetkov999@yandex.ru>
  */
-class ParameterBagTest extends TestCase
+class IpstackParamsTest extends TestCase
 {
     /**
-     * @var ParameterBag
+     * @var IpstackParams
      */
     private $params;
     
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->params = new ParameterBag(self::API_KEY);
+        $this->params = new IpstackParams(self::API_KEY);
     }
 
     public function testSetLanguage()
